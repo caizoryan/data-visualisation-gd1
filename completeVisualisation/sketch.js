@@ -70,7 +70,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(255);
   // ob.render();
   for (let x = 0; x < blobArray.length; x++) blobArray[x].render();
 }
@@ -124,11 +124,10 @@ class Corporation {
   }
   render() {
     this.money.render();
-    // this.time.render();
+    this.time.render();
     this.people.render();
-    fill(255);
     text(this.name, this.posX, 50);
-    stroke(255);
+    stroke(0);
     strokeWeight(0.1);
     line(this.posX, 0, this.posX, height);
   }
@@ -142,8 +141,8 @@ class TimeRing {
   render() {
     push();
     translate(this.x, this.y);
-    fill(0, 0, 0, 0);
-    stroke(255, 100);
+    fill(198, 243, 174, 0.0);
+    stroke(227, 207);
     strokeWeight(10);
 
     circle(this.x, this.y, this.time);
@@ -204,7 +203,7 @@ class People {
     push();
     translate(this.posX, this.posY);
     noStroke();
-    fill(255);
+    fill(0);
 
     for (let i = 0; i < TWO_PI; i += this.people / 120) {
       this.xoff = map(cos(i + this.phase), -1, 1, 0, this.noiseMax);
@@ -222,7 +221,7 @@ class People {
       this.xoff += 0.01;
     }
 
-    this.noiseSin += random(0.009);
+    this.noiseSin += 0.001;
     this.noiseMax = sin(this.noiseSin) * 5;
     pop();
   }

@@ -124,7 +124,7 @@ class Corporation {
   }
   render() {
     this.money.render();
-    // this.time.render();
+    this.time.render();
     this.people.render();
     fill(255);
     text(this.name, this.posX, 50);
