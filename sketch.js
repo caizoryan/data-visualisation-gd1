@@ -17,6 +17,12 @@ let data = [
     length: 294,
   },
   {
+    name: "peacock",
+    net: 0.778,
+    people: 15,
+    length: 30,
+  },
+  {
     name: "appletv",
     net: 17.5,
     people: 20,
@@ -41,12 +47,6 @@ let data = [
     length: 19,
   },
   {
-    name: "peacock",
-    net: 0.778,
-    people: 15,
-    length: 30,
-  },
-  {
     name: "crunchyroll",
     net: 0.04,
     people: 4,
@@ -64,7 +64,9 @@ function setup() {
     blobArray.push(new Blobby((x + 1) * 200, 400, data[x].net / 2));
   }
   for (let x = 0; x < data.length; x++) {
-    timeArray.push(new TimeBoi((x + 1) * 100, 200, data[x].length * 4));
+    timeArray.push(
+      new TimeBoi((x + 1) * 100, 200, data[x].length, data[x].people / 10)
+    );
   }
 }
 
@@ -84,8 +86,8 @@ class Blobby {
     this.yoff = random(800, 1000);
     this.zoff = random(800, 1000);
     this.r = radius;
-    this.amp = this.r * 2; // amplitude
-    this.color = color(random(255), random(30, 90), random(60, 120));
+    this.amp = this.r / 1.5; // amplitude
+    this.color = color(255, 0, 0);
   }
   render() {
     push();
@@ -115,17 +117,20 @@ class Blobby {
   }
 }
 class TimeBoi {
-  constructor(posX, posY, value) {
+  constructor(posX, posY, time, people) {
     this.x = posX;
     this.y = posY;
-    this.value = value;
+    this.time = time;
+    this.people = people;
   }
   render() {
     push();
     translate(this.x, this.y);
-    fill(198, 243, 174, 0.3);
+    fill(198, 243, 174, 0.0);
+    stroke(0);
+    strokeWeight(this.people);
 
-    rect(this.x, this.y, 50, this.value);
+    circle(this.x, this.y, this.time);
     pop();
   }
 }
