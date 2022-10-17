@@ -59,7 +59,7 @@ function setup() {
   for (let x = 0; x < data.length; x++) {
     blobArray.push(
       new Corporation(
-        (x + 1) * 200,
+        (x + 1) * 185,
         400,
         data[x].name,
         data[x].length,
