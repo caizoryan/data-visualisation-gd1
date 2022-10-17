@@ -1,8 +1,5 @@
-let w = window.innerWidth,
-  h = window.innerHeight;
-
 let vertices_amount = 100;
-let NOISE_SCALE = 200; // the higher the softer
+let NOISE_SCALE = 400; // the higher the softer
 let Z_SPEED = 0.007; // noise change per frame
 
 let color_x;
@@ -56,16 +53,19 @@ let data = [
 
 function setup() {
   noStroke();
-  createCanvas(w, h);
+  createCanvas(window.innerWidth, window.innerHeight);
   rectMode(CENTER);
-  frameRate(60);
-  color_x = 360;
+
   for (let x = 0; x < data.length; x++) {
-    blobArray.push(new Blobby((x + 1) * 200, 400, data[x].net / 2));
-  }
-  for (let x = 0; x < data.length; x++) {
-    timeArray.push(
-      new TimeBoi((x + 1) * 100, 200, data[x].length, data[x].people / 10)
+    blobArray.push(
+      new Corporation(
+        (x + 1) * 200,
+        400,
+        data[x].name,
+        data[x].length,
+        data[x].net / 2,
+        data[x].people / 10
+      )
     );
   }
 }
@@ -74,8 +74,6 @@ function draw() {
   colorMode(HSB);
   background(200); // bg color
   for (let x = 0; x < blobArray.length; x++) blobArray[x].render();
-  for (let x = 0; x < timeArray.length; x++) timeArray[x].render();
-  for (let x = 0; x < data.length; x++) text(data[x].name, (x + 1) * 200, 300);
 }
 
 class Blobby {
@@ -105,7 +103,6 @@ class Blobby {
         (this.yoff + y) / NOISE_SCALE,
         this.zoff
       );
-      // console.log(n);
       var new_x = x + n * this.amp * sin(a);
       var new_y = y + n * this.amp * cos(a);
       vertex(new_x, new_y);
@@ -116,7 +113,7 @@ class Blobby {
     this.zoff += Z_SPEED;
   }
 }
-class TimeBoi {
+class TimeRing {
   constructor(posX, posY, time, people) {
     this.x = posX;
     this.y = posY;
@@ -132,5 +129,21 @@ class TimeBoi {
 
     circle(this.x, this.y, this.time);
     pop();
+  }
+}
+class Corporation {
+  constructor(posX, posY, name, time, money, people) {
+    this.posX = posX;
+    this.money = new Blobby(posX, posY, money);
+    this.time = new TimeRing(posX / 2, posY / 2, time, people);
+    this.name = name;
+  }
+  render() {
+    this.money.render();
+    this.time.render();
+    text(this.name, this.posX, 100);
+    stroke(0);
+    strokeWeight(0.1);
+    line(this.posX, 0, this.posX, height);
   }
 }
